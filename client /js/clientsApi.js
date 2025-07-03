@@ -1,6 +1,6 @@
 export const getClients = async () => {
   try {
-    const response = await fetch("http://localhost:3000/api/clients", {
+    const response = await fetch("https://clients-app.onrender.com/api/clients", {
       method: "GET",
     });
 
@@ -16,7 +16,7 @@ export const getClients = async () => {
 export const sendClientData = async (client, method, id = null) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/clients/${method === "POST" ? "" : id}`,
+      `https://clients-app.onrender.com/api/clients/${method === "POST" ? "" : id}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export const sendClientData = async (client, method, id = null) => {
 
 export const deleteClientItem = async (id) => {
   try {
-    await fetch(`http://localhost:3000/api/clients/${id}`, {
+    await fetch(`https://clients-app.onrender.com/api/clients/${id}`, {
       method: "DELETE",
     });
   } catch (error) {
@@ -46,7 +46,7 @@ export const deleteClientItem = async (id) => {
 export const findClient = async (value) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/clients?search=${value}`,
+      `https://clients-app.onrender.com/api/clients?search=${value}`,
       {
         method: "GET",
       }
