@@ -5,6 +5,7 @@ import { createContactItem } from "./createContact.js";
 import { validateClientForm } from "./validateForm.js";
 import { validateClientContact } from "./validateContact.js";
 import { createClientItem } from "./createClientItem.js";
+import { getClientDisplayId } from "./utils.js";
 
 export const editClientModal = (data) => {
   const editModal = document.createElement("div");
@@ -20,7 +21,10 @@ export const editClientModal = (data) => {
     "modal-active"
   );
 
-  titleId.textContent = "ID " + data._id.substr(0, 6);
+   if (!data.displayId) {
+    data.displayId = getClientDisplayId(data._id);
+  }
+  titleId.textContent = "ID " + data.displayId;
   createForm.modalTitle.textContent = "Изменить данные";
   createForm.cancelBtn.textContent = "Удалить клиента";
 

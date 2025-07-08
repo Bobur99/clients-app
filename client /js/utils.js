@@ -75,3 +75,29 @@ export const formatTime = (data) => {
 
   return resultTime;
 };
+
+let lastValidNumericId = 0;
+const idCache = {}; // Хранит соответствие objectId → displayId
+
+export function getClientDisplayId(objectId) {
+  if (idCache[objectId]) {
+    return idCache[objectId];
+  }
+
+  const idPart = objectId.slice(0, 6); // вместо substr
+  let displayId;
+
+  if (/^\d+$/.test(idPart)) {
+    displayId = idPart;
+    lastValidNumericId = parseInt(idPart, 10);
+  } else {
+    const nextId = lastValidNumericId + 1;
+    displayId = nextId.toString().padStart(6, "0"); // 6 цифр
+    lastValidNumericId = nextId;
+  }
+
+  idCache[objectId] = displayId;
+
+  return displayId;
+}
+

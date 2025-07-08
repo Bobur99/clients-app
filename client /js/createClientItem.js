@@ -100,7 +100,10 @@ export const createClientItem = (data) => {
 
   deleteSpinner.innerHTML = svgSpinner;
   editSpinner.innerHTML = svgSpinner;
-  clientId.textContent = data._id.substr(data._id.length - 1);
+  if (!data.displayId) {
+    data.displayId = getClientDisplayId(data._id);
+  }
+  clientId.textContent = data.displayId;
   clientName.textContent = data.name;
   clientSurname.textContent = data.surname;
   clientLastName.textContent = data.lastName;
