@@ -28,6 +28,15 @@ router.use(async (req, res, next) => {
     }
 })
 
+async function getNextClientId(db) {
+    const result = await db.collection('counters').findOneAndUpdate(
+        { _id: "clientId" },
+        { $inc: { seq: 1 } },
+        { returnDocument: "after", upsert: true }
+    );
+    return result.value.seq;
+}
+
 const port = process.env.PORT || 3000;
 
 router.get('/', async (req, res) => {
@@ -61,6 +70,9 @@ router.post('/', async (req, res) => {
         const data = req.body;
         const db = req.db;
 
+        const nextId = await getNextClientId(db);
+        data.clientId = nextId;
+
         data.createdAt = new Date().toISOString();
         data.updatedAt = new Date().toISOString();
 
@@ -70,6 +82,7 @@ router.post('/', async (req, res) => {
         res.send(client);
     } catch (error) {
         console.log(error);
+        res.status(500).send("Ошибка при создании клиента");
     }
 });
 
